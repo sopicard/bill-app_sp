@@ -1,6 +1,7 @@
 import { ROUTES_PATH } from '../constants/routes.js'
 import { formatDate, formatStatus } from "../app/format.js"
 import Logout from "./Logout.js"
+import {sortBills} from "./BillsUtils.js"
 
 export default class {
   constructor({ document, onNavigate, store, localStorage }) {
@@ -26,14 +27,14 @@ export default class {
     $('#modaleFile').find(".modal-body").html(`<div style='text-align: center;' class="bill-proof-container"><img width=${imgWidth} src=${billUrl} alt="Bill" /></div>`)
     $('#modaleFile').modal('show')
   }
-
+ 
   getBills = () => {
     if (this.store) {
       return this.store
       .bills()
       .list()
       .then(snapshot => {
-        const bills = snapshot
+        const bills = this.sortBills(snapshot)
           .map(doc => {
             try {
               return {
@@ -52,6 +53,7 @@ export default class {
               }
             }
           })
+          
           console.log('length', bills.length)
         return bills
       })
