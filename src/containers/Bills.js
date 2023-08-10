@@ -1,7 +1,7 @@
 import { ROUTES_PATH } from '../constants/routes.js'
 import { formatDate, formatStatus } from "../app/format.js"
 import Logout from "./Logout.js"
-import {sortBills} from "./BillsUtils.js"
+import { sortBills } from './BillsUtils.js'
 
 export default class {
   constructor({ document, onNavigate, store, localStorage }) {
@@ -34,8 +34,8 @@ export default class {
       .bills()
       .list()
       .then(snapshot => {
-        const bills = this.sortBills(snapshot)
-          .map(doc => {
+        const bills = sortBills(snapshot)
+          bills.map(doc => {
             try {
               return {
                 ...doc,
@@ -53,7 +53,6 @@ export default class {
               }
             }
           })
-          
           console.log('length', bills.length)
         return bills
       })

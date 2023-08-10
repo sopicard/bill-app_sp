@@ -15,19 +15,23 @@ describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
     test("Then bill icon in vertical layout should be highlighted", async () => {
 
+      // Mock local storage for user status
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Employee'
       }))
+      // Set up DOM
       const root = document.createElement("div")
       root.setAttribute("id", "root")
       document.body.append(root)
+      // Navigate to Bills page
       router()
       window.onNavigate(ROUTES_PATH.Bills)
+      // Wait for the bill icon to load and then check if it's highlighted
       await waitFor(() => screen.getByTestId('icon-window'))
       const windowIcon = screen.getByTestId('icon-window')
-      //to-do write expect expression
-
+      // Expect the bill icon to have a certain class or style that indicates it's highlighted
+      expect(windowIcon.classList.contains('active-icon')).toBe(true)
     })
     test("Then bills should be ordered from earliest to latest", () => {
       const sortedBills = sortBills(bills)
@@ -36,8 +40,6 @@ describe("Given I am connected as an employee", () => {
       const antiChrono = (a, b) => ((a < b) ? 1 : -1)
       const datesSorted = [...dates].sort(antiChrono)
 
-      console.log("Dates:", dates);
-      console.log("DatesSorted:", datesSorted);
       expect(dates).toEqual(datesSorted)
     })
   })
