@@ -7,6 +7,9 @@
     "setupFiles": [
       "./setup-jest.js"
     ],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ],
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
       "!**/app/**",

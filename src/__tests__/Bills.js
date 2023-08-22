@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {screen, waitFor} from "@testing-library/dom"
+import {screen, fireEvent, waitFor} from "@testing-library/dom"
 import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
 import { sortBills } from "../containers/BillsUtils.js";
@@ -41,6 +41,27 @@ describe("Given I am connected as an employee", () => {
       const datesSorted = [...dates].sort(antiChrono)
 
       expect(dates).toEqual(datesSorted)
+    })
+  })
+  
+  describe("When I click on the eye icon", () => {
+    test("Then the bill modal should open", async () => {
+      // Mocking the BillsUI view
+      document.body.innerHTML = BillsUI({ data: bills, loading: false, error: null })
+
+      // Mocking localStorage
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }))
+
+      // Listening to the click event on the eye icon
+      const eyeIcons = screen.getAllByTestId("icon-eye")
+      fireEvent.click(eyeIcons[0])
+
+      const modalTitle = await screen.findByText('Justificatif');
+      expect(modalTitle).toBeInTheDocument();
+      
     })
   })
 })
