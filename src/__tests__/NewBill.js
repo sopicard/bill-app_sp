@@ -3,9 +3,15 @@
  */
 
 import { screen, fireEvent, waitFor } from "@testing-library/dom"
-import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event'
 import NewBillUI from "../views/NewBillUI.js"
 import NewBill from "../containers/NewBill.js"
+import { ROUTES_PATH} from "../constants/routes.js"
+import { localStorageMock } from "../__mocks__/localStorage.js"
+import mockStore from "../__mocks__/store"
+import router from "../app/Router.js"
+
+
 
 // Group of tests for when an employee is connected
 describe("Given I am connected as an employee", () => {
@@ -108,9 +114,9 @@ describe("Given I am connected as an employee", () => {
     
       // Restore original behavior of console.error
       errorSpy.mockRestore();
-    });   
-  });
-});
+    })  
+  })  
+})
 
     //   // Test for line 73 of NewBill.js (updateBill) whose function comment is : "not need to cover this function by tests"
     // test("When there is an error while updating the bill, it should log the error", async () => {
